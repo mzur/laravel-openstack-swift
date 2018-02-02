@@ -1,0 +1,29 @@
+{
+    "name": "mzur/laravel-openstack-swift",
+    "description": "OpenStack Swift storage driver for Laravel 5.",
+    "type": "library",
+    "require": {
+        "nimbusoft/flysystem-openstack-swift": "^0.2.0",
+        "illuminate/support": "~5.1",
+        "illuminate/filesystem": "~5.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Zurowietz",
+            "email": "martin@zurowietz.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mzur\\Filesystem\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Mzur\\Filesystem\\SwiftServiceProvider"
+            ]
+        }
+    }
+}
