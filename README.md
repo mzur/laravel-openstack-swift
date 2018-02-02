@@ -20,13 +20,14 @@ Mzur\Filesystem\SwiftServiceProvider::class,
 
 Add a new storage disk to `config/filesystems.php` (using v3 of the identity API):
 
-```
+```php
 'disks' => [
    'openstack' => [
       'driver'    => 'swift',
       'authUrl'   => env('OS_AUTH_URL', ''),
       'region'    => env('OS_REGION_NAME', ''),
       'user'      => env('OS_USERNAME', ''),
+      'domain'    => env('OS_USER_DOMAIN_NAME', 'default'),
       'password'  => env('OS_PASSWORD', ''),
       'projectId' => env('OS_PROJECT_ID', ''),
       'container' => env('OS_CONTAINER_NAME', ''),

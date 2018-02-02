@@ -2,6 +2,7 @@
 
 namespace Mzur\Filesystem;
 
+use Storage;
 use OpenStack\OpenStack;
 use League\Flysystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
@@ -16,13 +17,14 @@ class SwiftServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->make('filesystem')->extend('swift', function($app, $config) {
+        Storage::extend('swift', function($app, $config) {
             $openstack = new OpenStack([
                 'authUrl' => $config['authUrl'],
                 'region' => $config['region'],
                 'user' => [
-                    'id' => $config['user'],
+                    'name' => $config['user'],
                     'password' => $config['password'],
+                    'domain' => ['name' => $config['domain']],
                 ],
                 'scope' => ['project' => ['id' => $config['projectId']]],
             ]);
