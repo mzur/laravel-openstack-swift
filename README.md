@@ -29,7 +29,6 @@ Add a new storage disk to `config/filesystems.php` (using v3 of the identity API
       'user'      => env('OS_USERNAME', ''),
       'domain'    => env('OS_USER_DOMAIN_NAME', 'default'),
       'password'  => env('OS_PASSWORD', ''),
-      'projectId' => env('OS_PROJECT_ID', ''),
       'container' => env('OS_CONTAINER_NAME', ''),
    ],
 ]

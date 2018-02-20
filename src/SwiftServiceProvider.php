@@ -28,7 +28,6 @@ class SwiftServiceProvider extends ServiceProvider
                     'password' => $config['password'],
                     'domain' => ['name' => $config['domain']],
                 ],
-                'scope' => ['project' => ['id' => $config['projectId']]],
             ];
 
             $cachedTokenKey = "openstack-swift-token-{$config['user']}-{$config['domain']}";
