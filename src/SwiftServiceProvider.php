@@ -20,6 +20,7 @@ class SwiftServiceProvider extends ServiceProvider
     public function boot()
     {
         Storage::extend('swift', function($app, $config) {
+
             $params = [
                 'authUrl' => $config['authUrl'],
                 'region' => $config['region'],
@@ -28,25 +29,13 @@ class SwiftServiceProvider extends ServiceProvider
                     'password' => $config['password'],
                     'domain' => ['name' => $config['domain']],
                 ],
+                'debugLog' => array_get($config, 'debugLog', false),
+                'logger' => array_get($config, 'logger', null),
+                'messageFormatter' => array_get($config, 'messageFormatter', null),
+                'requestOptions' => array_get($config, 'requestOptions', []),
             ];
 
-            $cachedTokenKey = "openstack-swift-token-{$config['user']}-{$config['domain']}";
-
-            // Cache the authentication token to significantly speed up requests.
-            // See: http://php-openstack-sdk.readthedocs.io/en/identity-v2/services/identity/v3/tokens.html#cache-authentication-token
-            if (Cache::has($cachedTokenKey)) {
-                $params['cachedToken'] = Cache::get($cachedTokenKey);
-            } else {
-                $openstack = new OpenStack(['authUrl' => $config['authUrl']]);
-                $token = $openstack->identityV3()->generateToken($params);
-                $params['cachedToken'] = $token->export();
-                // Convert DateTimeImmutable to DateTime because Cache::put expects
-                // the latter to determine the expiration.
-                $expires = new DateTime($token->expires->format('c'));
-                Cache::put($cachedTokenKey, $params['cachedToken'], $expires);
-            }
-
-            $openstack = new OpenStack($params);
+            $openstack = $this->getOpenStack($params);
             $container = $openstack->objectStoreV1()->getContainer($config['container']);
 
             return new Filesystem(new SwiftAdapter($container));
@@ -61,5 +50,33 @@ class SwiftServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Get the OpenStack instance.
+     *
+     * @param array $params
+     *
+     * @return OpenStack
+     */
+    protected function getOpenStack(array $params)
+    {
+        $cachedTokenKey = "openstack-swift-token-{$params['user']['name']}-{$params['user']['domain']['name']}";
+
+        // Cache the authentication token to significantly speed up requests.
+        // See: http://php-openstack-sdk.readthedocs.io/en/identity-v2/services/identity/v3/tokens.html#cache-authentication-token
+        if (Cache::has($cachedTokenKey)) {
+            $params['cachedToken'] = Cache::get($cachedTokenKey);
+        } else {
+            $openstack = new OpenStack(['authUrl' => $params['authUrl']]);
+            $token = $openstack->identityV3()->generateToken($params);
+            $params['cachedToken'] = $token->export();
+            // Convert DateTimeImmutable to DateTime because Cache::put expects
+            // the latter to determine the expiration.
+            $expires = new DateTime($token->expires->format('c'));
+            Cache::put($cachedTokenKey, $params['cachedToken'], $expires);
+        }
+
+        return new OpenStack($params);
     }
 }
