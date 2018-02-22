@@ -8,6 +8,7 @@ use DateTime;
 use OpenStack\OpenStack;
 use League\Flysystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use League\Flysystem\Config as FlyConfig;
 use Nimbusoft\Flysystem\OpenStack\SwiftAdapter;
 
 class SwiftServiceProvider extends ServiceProvider
@@ -38,7 +39,9 @@ class SwiftServiceProvider extends ServiceProvider
             $openstack = $this->getOpenStack($params);
             $container = $openstack->objectStoreV1()->getContainer($config['container']);
 
-            return new Filesystem(new SwiftAdapter($container));
+            return new Filesystem(new SwiftAdapter($container), new FlyConfig([
+                'disable_asserts' => array_get($config, 'disableAsserts', false),
+            ]));
         });
     }
 

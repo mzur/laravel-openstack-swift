@@ -34,4 +34,10 @@ Add a new storage disk to `config/filesystems.php` (using v3 of the identity API
 ]
 ```
 
-Additional configuration options are `debugLog`, `logger`, `messageFormatter` [[ref]](https://github.com/php-opencloud/openstack/issues/47#issuecomment-208181121) and `requestOptions` [[ref]](https://github.com/php-opencloud/openstack/pull/63#issue-74731062).
+Additional configuration options:
+
+- `debugLog` (default: `false`), `logger` (default: `null`), `messageFormatter` (default: `null`) [[ref]](https://github.com/php-opencloud/openstack/issues/47#issuecomment-208181121)
+
+- `requestOptions` (default: `[]`) [[ref]](https://github.com/php-opencloud/openstack/pull/63#issue-74731062)
+
+- `disableAsserts` (default: `false`) [[ref]](https://flysystem.thephpleague.com/performance/)
