@@ -36,6 +36,10 @@ class SwiftServiceProvider extends ServiceProvider
                 'requestOptions' => array_get($config, 'requestOptions', []),
             ];
 
+            if (array_key_exists('projectId', $config)) {
+                $params['scope'] = ['project' => ['id' => $config['projectId']]];
+            }
+
             $openstack = $this->getOpenStack($params);
             $container = $openstack->objectStoreV1()->getContainer($config['container']);
 
