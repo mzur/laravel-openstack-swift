@@ -3,9 +3,9 @@
 namespace Mzur\Filesystem;
 
 use Storage;
+use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
-use League\Flysystem\Config as FlyConfig;
 
 class SwiftServiceProvider extends ServiceProvider
 {
@@ -38,9 +38,7 @@ class SwiftServiceProvider extends ServiceProvider
 
             $wrapper = new SwiftAdapterWrapper($params, $config['container']);
 
-            return new Filesystem($wrapper, new FlyConfig([
-                'disable_asserts' => array_get($config, 'disableAsserts', false),
-            ]));
+            return new Filesystem($wrapper, $this->getFlyConfig($config));
         });
     }
 
@@ -52,5 +50,34 @@ class SwiftServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+
+    /**
+     * Create the Flysyystem configuration.
+     *
+     * @param array $config
+     *
+     * @return Config
+     */
+    protected function getFlyConfig($config)
+    {
+        $flyConfig = new Config([
+            'disable_asserts' => array_get($config, 'disableAsserts', false),
+        ]);
+
+        $passThroughConfig = [
+            'swiftLargeObjectThreshold',
+            'swiftSegmentSize',
+            'swiftSegmentContainer',
+        ];
+
+        foreach ($passThroughConfig as $key) {
+            if (isset($config[$key])) {
+                $flyConfig->set($key, $config[$key]);
+            }
+        }
+
+        return $flyConfig;
     }
 }

@@ -43,3 +43,9 @@ Additional configuration options:
 - `requestOptions` (default: `[]`) [[ref]](https://github.com/php-opencloud/openstack/pull/63#issue-74731062)
 
 - `disableAsserts` (default: `false`) [[ref]](https://flysystem.thephpleague.com/docs/advanced/performance/)
+
+- `swiftLargeObjectThreshold` [[ref]](https://github.com/mzur/flysystem-openstack-swift#configuration)
+
+- `swiftSegmentSize` [[ref]](https://github.com/mzur/flysystem-openstack-swift#configuration)
+
+- `swiftSegmentContainer` [[ref]](https://github.com/mzur/flysystem-openstack-swift#configuration)

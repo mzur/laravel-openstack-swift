@@ -3,7 +3,7 @@
     "description": "OpenStack Swift storage driver for Laravel 5.",
     "type": "library",
     "require": {
-        "mzur/flysystem-openstack-swift": "^0.2.2",
+        "mzur/flysystem-openstack-swift": "^1.0",
         "illuminate/support": "~5.1",
         "illuminate/filesystem": "~5.1"
     },
