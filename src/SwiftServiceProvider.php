@@ -2,7 +2,6 @@
 
 namespace Mzur\Filesystem;
 
-use Storage;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
@@ -16,7 +15,7 @@ class SwiftServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Storage::extend('swift', function($app, $config) {
+        $this->app['filesystem']->extend('swift', function($app, $config) {
 
             $params = [
                 'authUrl' => $config['authUrl'],

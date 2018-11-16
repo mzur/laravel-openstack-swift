@@ -1,6 +1,6 @@
 # Laravel OpenStack Swift
 
-OpenStack Swift storage driver for Laravel 5.
+OpenStack Swift storage driver for Laravel/Lumen 5.
 
 ## Installation
 
@@ -10,10 +10,19 @@ Require the package with Composer:
 composer require mzur/laravel-openstack-swift
 ```
 
+### Laravel
+
 For Laravel 5.4 and lower, add the service provider to `config/app.php`:
 
 ```php
 Mzur\Filesystem\SwiftServiceProvider::class,
+```
+
+### Lumen
+
+Add the service provider to `bootstrap/app.php`:
+```php
+$app->register(Mzur\Filesystem\SwiftServiceProvider::class);
 ```
 
 ## Configuration

@@ -2,7 +2,6 @@
 
 namespace Mzur\Filesystem;
 
-use Cache;
 use DateTime;
 use DateTimeImmutable;
 use OpenStack\OpenStack;
@@ -264,18 +263,18 @@ class SwiftAdapterWrapper implements AdapterInterface
 
         // Cache the authentication token to significantly speed up requests.
         // See: http://php-openstack-sdk.readthedocs.io/en/identity-v2/services/identity/v3/tokens.html#cache-authentication-token
-        if (Cache::has($cachedTokenKey)) {
-            return Cache::get($cachedTokenKey);
+        if (app('cache')->has($cachedTokenKey)) {
+            return app('cache')->get($cachedTokenKey);
         }
 
         $openstack = new OpenStack(['authUrl' => $this->params['authUrl']]);
         $token = $openstack->identityV3()->generateToken($this->params);
         $this->expires = $token->expires;
         $cachedToken = $token->export();
-        // Convert DateTimeImmutable to DateTime because Cache::put expects
+        // Convert DateTimeImmutable to DateTime because app('cache')->put expects
         // the latter to determine the expiration.
         $expires = new DateTime($token->expires->format('c'));
-        Cache::put($cachedTokenKey, $cachedToken, $expires);
+        app('cache')->put($cachedTokenKey, $cachedToken, $expires);
 
         return $cachedToken;
     }
