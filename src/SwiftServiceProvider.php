@@ -4,7 +4,9 @@ namespace Mzur\Filesystem;
 
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
+use Biigle\CachedOpenStack\OpenStack;
 use Illuminate\Support\ServiceProvider;
+use Nimbusoft\Flysystem\OpenStack\SwiftAdapter;
 
 class SwiftServiceProvider extends ServiceProvider
 {
@@ -16,28 +18,14 @@ class SwiftServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['filesystem']->extend('swift', function($app, $config) {
+            $options = $this->getOsOptions($config);
+            $container = (new OpenStack($app['cache'], $options))
+                ->objectStoreV1()
+                ->getContainer($config['container']);
 
-            $params = [
-                'authUrl' => $config['authUrl'],
-                'region' => $config['region'],
-                'user' => [
-                    'name' => $config['user'],
-                    'password' => $config['password'],
-                    'domain' => ['name' => $config['domain']],
-                ],
-                'debugLog' => array_get($config, 'debugLog', false),
-                'logger' => array_get($config, 'logger', null),
-                'messageFormatter' => array_get($config, 'messageFormatter', null),
-                'requestOptions' => array_get($config, 'requestOptions', []),
-            ];
+            $adapter = new SwiftAdapter($container);
 
-            if (array_key_exists('projectId', $config)) {
-                $params['scope'] = ['project' => ['id' => $config['projectId']]];
-            }
-
-            $wrapper = new SwiftAdapterWrapper($params, $config['container']);
-
-            return new Filesystem($wrapper, $this->getFlyConfig($config));
+            return new Filesystem($adapter, $this->getFlyConfig($config));
         });
     }
 
@@ -51,9 +39,38 @@ class SwiftServiceProvider extends ServiceProvider
         //
     }
 
+    /**
+     * Get the OpenStack options.
+     *
+     * @param array $config
+     *
+     * @return array
+     */
+    protected function getOsOptions($config)
+    {
+        $options = [
+            'authUrl' => $config['authUrl'],
+            'region' => $config['region'],
+            'user' => [
+                'name' => $config['user'],
+                'password' => $config['password'],
+                'domain' => ['name' => $config['domain']],
+            ],
+            'debugLog' => array_get($config, 'debugLog', false),
+            'logger' => array_get($config, 'logger', null),
+            'messageFormatter' => array_get($config, 'messageFormatter', null),
+            'requestOptions' => array_get($config, 'requestOptions', []),
+        ];
+
+        if (array_key_exists('projectId', $config)) {
+            $options['scope'] = ['project' => ['id' => $config['projectId']]];
+        }
+
+        return $options;
+    }
 
     /**
-     * Create the Flysyystem configuration.
+     * Create the Flysystem configuration.
      *
      * @param array $config
      *
