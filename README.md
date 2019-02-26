@@ -58,3 +58,7 @@ Additional configuration options:
 - `swiftSegmentSize` [[ref]](https://github.com/mzur/flysystem-openstack-swift#configuration)
 
 - `swiftSegmentContainer` [[ref]](https://github.com/mzur/flysystem-openstack-swift#configuration)
+
+- `prefix` (default: `null`): Prefix to use for the names of the objects in the container.
+
+- `url` (default: `null`): Override URL to use for public URLs to objects. If this is not set, the public URL will point to the public URL of Swift. This configuration is useful if you use a reverse proxy to pass through requests to public Swift containers.

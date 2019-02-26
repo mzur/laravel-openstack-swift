@@ -6,7 +6,6 @@ use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use Biigle\CachedOpenStack\OpenStack;
 use Illuminate\Support\ServiceProvider;
-use Nimbusoft\Flysystem\OpenStack\SwiftAdapter;
 
 class SwiftServiceProvider extends ServiceProvider
 {
@@ -23,7 +22,9 @@ class SwiftServiceProvider extends ServiceProvider
                 ->objectStoreV1()
                 ->getContainer($config['container']);
 
-            $adapter = new SwiftAdapter($container);
+            $prefix = array_get($config, 'prefix', null);
+            $url = array_get($config, 'url', null);
+            $adapter = new SwiftAdapter($container, $prefix, $url);
 
             return new Filesystem($adapter, $this->getFlyConfig($config));
         });
