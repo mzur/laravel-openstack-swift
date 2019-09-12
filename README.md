@@ -1,6 +1,6 @@
 # Laravel OpenStack Swift
 
-OpenStack Swift storage driver for Laravel/Lumen 5.
+OpenStack Swift storage driver for Laravel/Lumen.
 
 ## Installation
 
