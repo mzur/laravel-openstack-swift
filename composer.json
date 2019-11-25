@@ -1,9 +1,9 @@
 {
     "name": "mzur/laravel-openstack-swift",
-    "description": "OpenStack Swift storage driver for Laravel 5.",
+    "description": "OpenStack Swift storage driver for Laravel/Lumen.",
     "type": "library",
     "require": {
-        "mzur/flysystem-openstack-swift": "^1.0",
+        "nimbusoft/flysystem-openstack-swift": "^0.3",
         "biigle/laravel-cached-openstack": "^1.0",
         "illuminate/support": "^5.1|^6.0",
         "illuminate/filesystem": "^5.1|^6.0"
