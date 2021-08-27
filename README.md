@@ -62,3 +62,5 @@ Additional configuration options:
 - `prefix` (default: `null`): Prefix to use for the names of the objects in the container.
 
 - `url` (default: `null`): Override URL to use for public URLs to objects. If this is not set, the public URL will point to the public URL of Swift. This configuration is useful if you use a reverse proxy to pass through requests to public Swift containers.
+
+- `tempUrlKey`: The account or container level key for [temporary URLs](https://docs.openstack.org/swift/latest/api/temporary_url_middleware.html). If set, support for [temporary URLs](https://laravel.com/docs/master/filesystem#temporary-urls) is automatically enabled for the storage disk.

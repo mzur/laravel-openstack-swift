@@ -25,7 +25,13 @@ class SwiftServiceProvider extends ServiceProvider
 
             $prefix = Arr::get($config, 'prefix', null);
             $url = Arr::get($config, 'url', null);
-            $adapter = new SwiftAdapter($container, $prefix, $url);
+            $key = Arr::get($config, 'tempUrlKey', false);
+
+            if ($key) {
+                $adapter = new TempUrlSwiftAdapter($container, $key, $prefix, $url);
+            } else {
+                $adapter = new SwiftAdapter($container, $prefix, $url);
+            }
 
             return new Filesystem($adapter, $this->getFlyConfig($config));
         });

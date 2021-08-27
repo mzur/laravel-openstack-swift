@@ -19,6 +19,7 @@ class SwiftAdapter extends BaseAdapter
      *
      * @param Container $container
      * @param string    $prefix
+     * @param string $url
      */
     public function __construct(Container $container, $prefix = null, $url = null)
     {
@@ -38,6 +39,6 @@ class SwiftAdapter extends BaseAdapter
             return "{$this->url}/{$path}";
         }
 
-        return $this->container->getObject($path)->getPublicUri();
+        return (string) $this->container->getObject($path)->getPublicUri();
     }
 }
