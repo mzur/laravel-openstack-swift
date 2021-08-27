@@ -57,6 +57,6 @@ class TempUrlSwiftAdapter extends SwiftAdapter
         $algo = Arr::get($options, 'algo', 'sha1');
         $sig = hash_hmac($algo, $hmacBody, $this->tempUrlKey);
 
-        return "{$url}?temp_url_sig={$sig}&temp_url_expires={$expires}&inline";
+        return "{$url}?temp_url_sig={$sig}&temp_url_expires={$expires}";
     }
 }
