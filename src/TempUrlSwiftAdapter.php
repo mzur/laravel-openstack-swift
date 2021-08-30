@@ -52,7 +52,8 @@ class TempUrlSwiftAdapter extends SwiftAdapter
         $url = $this->getUrl($path);
         $hmacPath = explode('v1', $url);
         array_shift($hmacPath);
-        $hmacPath = implode('v1', $hmacPath);
+        // Decode URL for signature only as stated by the documentation.
+        $hmacPath = rawurldecode(implode('v1', $hmacPath));
         $hmacBody = "GET\n{$expires}\n/v1{$hmacPath}";
         $algo = Arr::get($options, 'algo', 'sha1');
         $sig = hash_hmac($algo, $hmacBody, $this->tempUrlKey);
