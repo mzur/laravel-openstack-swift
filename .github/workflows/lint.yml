@@ -18,7 +18,7 @@ jobs:
         fetch-depth: 1
 
     - name: Install Dependencies
-      run: composer install --no-ansi --no-interaction --no-scripts --dev
+      run: composer install --no-ansi --no-interaction
 
     - name: Run Psalm
       run: ./vendor/bin/psalm
