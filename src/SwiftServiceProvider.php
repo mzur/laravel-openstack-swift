@@ -68,6 +68,10 @@ class SwiftServiceProvider extends ServiceProvider
             $options['scope'] = ['project' => ['id' => $config['projectId']]];
         }
 
+        if (array_key_exists('ttl', $config)) {
+            $options['cacheOptions'] = ['ttl' => $config['ttl']];
+        }
+
         return $options;
     }
 
