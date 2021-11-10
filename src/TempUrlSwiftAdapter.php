@@ -34,7 +34,7 @@ class TempUrlSwiftAdapter extends SwiftAdapter
      * see: https://docs.openstack.org/swift/latest/middleware.html#tempurl
      *
      * @param  string  $path
-     * @param DateTime $expiration
+     * @param \DateTime $expiration
      * @param array $options
      * @return string
      */

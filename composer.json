@@ -26,5 +26,8 @@
                 "Mzur\\Filesystem\\SwiftServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "vimeo/psalm": "^4.12"
     }
 }
