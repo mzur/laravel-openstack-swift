@@ -3,7 +3,7 @@
     "description": "OpenStack Swift storage driver for Laravel/Lumen.",
     "type": "library",
     "require": {
-        "nimbusoft/flysystem-openstack-swift": "^0.3",
+        "nimbusoft/flysystem-openstack-swift": "^0.3 | ^0.4",
         "biigle/laravel-cached-openstack": "^1.4",
         "illuminate/support": "^5.1|^6.0|^7.0|^8.0",
         "illuminate/filesystem": "^5.1|^6.0|^7.0|^8.0"
