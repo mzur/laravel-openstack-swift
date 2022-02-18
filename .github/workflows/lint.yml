@@ -21,4 +21,4 @@ jobs:
       run: composer install --no-ansi --no-interaction
 
     - name: Run Psalm
-      run: ./vendor/bin/psalm
+      run: ./vendor/bin/psalm --output-format=github
