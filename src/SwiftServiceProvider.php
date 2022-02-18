@@ -2,11 +2,12 @@
 
 namespace Mzur\Filesystem;
 
+use Biigle\CachedOpenStack\OpenStack;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Arr;
+use Illuminate\Support\ServiceProvider;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
-use Biigle\CachedOpenStack\OpenStack;
-use Illuminate\Support\ServiceProvider;
 
 class SwiftServiceProvider extends ServiceProvider
 {
@@ -17,14 +18,14 @@ class SwiftServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app['filesystem']->extend('swift', function($app, $config) {
+        $this->app->make('filesystem')->extend('swift', function($app, $config) {
             $options = $this->getOsOptions($config);
-            $container = (new OpenStack($app['cache'], $options))
+            $container = (new OpenStack($app->make('cache'), $options))
                 ->objectStoreV1()
                 ->getContainer($config['container']);
 
-            $prefix = Arr::get($config, 'prefix', null);
-            $url = Arr::get($config, 'url', null);
+            $prefix = Arr::get($config, 'prefix', '');
+            $url = Arr::get($config, 'url', '');
             $key = Arr::get($config, 'tempUrlKey', false);
 
             if ($key) {
@@ -33,7 +34,13 @@ class SwiftServiceProvider extends ServiceProvider
                 $adapter = new SwiftAdapter($container, $prefix, $url);
             }
 
-            return new Filesystem($adapter, $this->getFlyConfig($config));
+            $flyConfig = $this->getFlyConfig($config);
+
+            return new FilesystemAdapter(
+                new Filesystem($adapter, $flyConfig),
+                $adapter,
+                $flyConfig
+            );
         });
     }
 
@@ -86,13 +93,11 @@ class SwiftServiceProvider extends ServiceProvider
      *
      * @param array $config
      *
-     * @return Config
+     * @return array
      */
     protected function getFlyConfig($config)
     {
-        $flyConfig = new Config([
-            'disable_asserts' => Arr::get($config, 'disableAsserts', false),
-        ]);
+        $flyConfig = [];
 
         $passThroughConfig = [
             'swiftLargeObjectThreshold',
@@ -102,7 +107,7 @@ class SwiftServiceProvider extends ServiceProvider
 
         foreach ($passThroughConfig as $key) {
             if (isset($config[$key])) {
-                $flyConfig->set($key, $config[$key]);
+                $flyConfig[$key] = $config[$key];
             }
         }
 

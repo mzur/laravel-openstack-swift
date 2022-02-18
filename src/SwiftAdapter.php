@@ -21,7 +21,7 @@ class SwiftAdapter extends BaseAdapter
      * @param string    $prefix
      * @param string $url
      */
-    public function __construct(Container $container, $prefix = null, $url = null)
+    public function __construct(Container $container, $prefix = '', $url = '')
     {
         parent::__construct($container, $prefix);
         $this->url = rtrim($url, '/');
