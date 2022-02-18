@@ -12,11 +12,7 @@ composer require mzur/laravel-openstack-swift
 
 ### Laravel
 
-For Laravel 5.4 and lower, add the service provider to `config/app.php`:
-
-```php
-Mzur\Filesystem\SwiftServiceProvider::class,
-```
+This package is auto-discovered.
 
 ### Lumen
 
@@ -50,8 +46,6 @@ Additional configuration options:
 - `debugLog` (default: `false`), `logger` (default: `null`), `messageFormatter` (default: `null`) [[ref]](https://github.com/php-opencloud/openstack/issues/47#issuecomment-208181121)
 
 - `requestOptions` (default: `[]`) [[ref]](https://github.com/php-opencloud/openstack/pull/63#issue-74731062)
-
-- `disableAsserts` (default: `false`) [[ref]](https://flysystem.thephpleague.com/docs/advanced/performance/)
 
 - `swiftLargeObjectThreshold` [[ref]](https://github.com/mzur/flysystem-openstack-swift#configuration)
 

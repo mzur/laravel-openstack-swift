@@ -22,7 +22,7 @@ class TempUrlSwiftAdapter extends SwiftAdapter
      * @param string    $prefix
      * @param string $url
      */
-    public function __construct(Container $container, $key, $prefix = null, $url = null)
+    public function __construct(Container $container, $key, $prefix = '', $url = '')
     {
         parent::__construct($container, $prefix, $url);
         $this->tempUrlKey = $key;
