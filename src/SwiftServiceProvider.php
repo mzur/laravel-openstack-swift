@@ -24,7 +24,7 @@ class SwiftServiceProvider extends ServiceProvider
                 ->objectStoreV1()
                 ->getContainer($config['container']);
 
-            $prefix = Arr::get($config, 'prefix', '');
+            $prefix = Arr::get($config, 'root', Arr::get($config, 'prefix', ''));
             $url = Arr::get($config, 'url', '');
             $key = Arr::get($config, 'tempUrlKey', false);
 
