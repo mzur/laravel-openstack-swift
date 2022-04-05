@@ -35,6 +35,8 @@ class SwiftAdapter extends BaseAdapter
      */
     public function getUrl($path)
     {
+        $path = $this->prefixer->prefixPath($path);
+
         if ($this->url) {
             return "{$this->url}/{$path}";
         }
